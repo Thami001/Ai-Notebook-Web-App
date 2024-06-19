@@ -19,12 +19,14 @@ const CreateNoteDialog = () => {
     const router = useRouter()
     const [input, setInput] = React.useState("")
 
-    const createNoteBook = useMutation({
+    const createNotebook = useMutation({
         mutationFn: async () => {
-            const response = await axios.post('/api/createNoteBook', {name: input} )
-            return response.data
-        }
-    })
+            const response = await axios.post("/api/createNoteBook", {
+                name: input,
+            });
+            return response.data;
+        },
+    });
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -32,7 +34,7 @@ const CreateNoteDialog = () => {
             window.alert("Please Enter A Name For Your Notebook")
             return
         }
-        createNoteBook.mutate( undefined, {
+        createNotebook.mutate(undefined,  {
             onSuccess: ({note_id}) => {
                 router.push('/notebook/${note_id}')
                 console.log("Created new note:", {note_id})
@@ -68,8 +70,8 @@ const CreateNoteDialog = () => {
 
                     <div className={"flex items-center gap-2"}>
                         <Button type={"reset"} variant={"secondary"}>Cancel</Button>
-                        <Button className={"bg-green-600"} type={"submit"} disabled={createNoteBook.isPending}>
-                            {createNoteBook.isPending && (
+                        <Button className={"bg-green-600"} type={"submit"} disabled={createNotebook.isPending}>
+                            {createNotebook.isPending && (
                                 <Loader2 className={"w-4 h-4 mr-2 animate-spin"} />
                             )}
                             Create</Button>
